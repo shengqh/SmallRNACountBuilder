@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <Platform>x64</Platform>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CQS</RootNamespace>
+    <AssemblyName>SmallRNACountBuilder</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Bio">
+      <HintPath>..\SQH.Lib\Bio.dll</HintPath>
+    </Reference>
+    <Reference Include="CommandLine">
+      <HintPath>..\SQH.Lib\CommandLine.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractProcessReader.cs" />
+    <Compile Include="AbstractTableFile.cs" />
+    <Compile Include="Commandline\AbstractOptions.cs" />
+    <Compile Include="Commandline\ICommandLineCommand.cs" />
+    <Compile Include="EnumUtils.cs" />
+    <Compile Include="Extension\XmlExtensions.cs" />
+    <Compile Include="Extension\XmlLinqExtension.cs" />
+    <Compile Include="FileProcessor.cs" />
+    <Compile Include="Gui\IProgress.cs" />
+    <Compile Include="Gui\ProgressClass.cs" />
+    <Compile Include="Extensions\ISequenceExtension.cs" />
+    <Compile Include="Extensions\SAMAlignedSequenceExtension.cs" />
+    <Compile Include="Genome\Bed\BedItem.cs" />
+    <Compile Include="Genome\Bed\BedItemFile.cs" />
+    <Compile Include="Genome\CountMap.cs" />
+    <Compile Include="Genome\Feature\AbstractFeatureItemGroupXmlFormat.cs" />
+    <Compile Include="Genome\Feature\FeatureItem.cs" />
+    <Compile Include="Genome\Feature\FeatureItemGroup.cs" />
+    <Compile Include="Genome\Feature\FeatureItemGroupCountWriter.cs" />
+    <Compile Include="Genome\Feature\FeatureItemGroupXmlFormat.cs" />
+    <Compile Include="Genome\Feature\FeatureItemGroupXmlFormatHand.cs" />
+    <Compile Include="Genome\Feature\FeatureLocation.cs" />
+    <Compile Include="Genome\Feature\FeatureSamLocation.cs" />
+    <Compile Include="Genome\GenomeUtils.cs" />
+    <Compile Include="Genome\Gsnap\SAMAlignedItemCandidateGsnapBuilder.cs" />
+    <Compile Include="Genome\Gtf\GtfItem.cs" />
+    <Compile Include="Genome\Gtf\GtfItemFile.cs" />
+    <Compile Include="Genome\ISequenceRegion.cs" />
+    <Compile Include="Genome\Mapping\AbstractCountProcessor.cs" />
+    <Compile Include="Genome\Mapping\AbstractCountProcessorOptions.cs" />
+    <Compile Include="Genome\Mapping\AbstractSAMAlignedItemCandidateBuilder.cs" />
+    <Compile Include="Genome\Mapping\ICandidateBuilder.cs" />
+    <Compile Include="Genome\Mapping\ICountProcessorOptions.cs" />
+    <Compile Include="Genome\Mapping\MappedItem.cs" />
+    <Compile Include="Genome\Mapping\MappedItemGroup.cs" />
+    <Compile Include="Genome\Mapping\MappedItemGroupXmlFileFormat.cs" />
+    <Compile Include="Genome\Mapping\SAMAlignedItemBestScoreCandidateBuilder.cs" />
+    <Compile Include="Genome\Mapping\SAMAlignedItemCandidateBuilder.cs" />
+    <Compile Include="Genome\Pileup\AlignedPosition.cs" />
+    <Compile Include="Genome\Pileup\EventCount.cs" />
+    <Compile Include="Genome\Pileup\PileupBase.cs" />
+    <Compile Include="Genome\Sam\BAMWindowReader.cs" />
+    <Compile Include="Genome\Sam\ISAMAlignedItemParserOptions.cs" />
+    <Compile Include="Genome\Sam\ISAMFile.cs" />
+    <Compile Include="Genome\Sam\ISAMFormat.cs" />
+    <Compile Include="Genome\Sam\ISAMItem.cs" />
+    <Compile Include="Genome\Sam\SAMAlignedItem.cs" />
+    <Compile Include="Genome\Sam\SAMAlignedItemParserOptions.cs" />
+    <Compile Include="Genome\Sam\SAMAlignedItemUtils.cs" />
+    <Compile Include="Genome\Sam\SAMAlignedLocation.cs" />
+    <Compile Include="Genome\Sam\SAMFactory.cs" />
+    <Compile Include="Genome\Sam\SAMFormat.cs" />
+    <Compile Include="Genome\Sam\SAMFormatConst.cs" />
+    <Compile Include="Genome\Sam\SAMItemSlim.cs" />
+    <Compile Include="Genome\Sam\SAMLinuxReader.cs" />
+    <Compile Include="Genome\Sam\SamUtils.cs" />
+    <Compile Include="Genome\SequenceRegion.cs" />
+    <Compile Include="Genome\SequenceRegionMapped.cs" />
+    <Compile Include="Genome\SequenceRegionUtils.cs" />
+    <Compile Include="Genome\SingleNucleotidePolymorphism.cs" />
+    <Compile Include="Genome\SmallRNA\AbstractSmallRNACountProcessor.cs" />
+    <Compile Include="Genome\SmallRNA\AbstractSmallRNACountProcessorOptions.cs" />
+    <Compile Include="Genome\SmallRNA\AcceptResult.cs" />
+    <Compile Include="Genome\SmallRNA\IReadMapper.cs" />
+    <Compile Include="Genome\SmallRNA\ISmallRNACountProcessorOptions.cs" />
+    <Compile Include="Genome\SmallRNA\ISmallRNAExport.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNACandidateBuilder.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNAConsts.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNACountMap.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNACountMicroRNAWriter.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNACountProcessor.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNACountProcessorCommand.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNACountProcessorOptions.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNAMappedPositionBuilder.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNAMapper.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNAMapperBiotype.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNAMapperLincRNA.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNAMapperLongRNA.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNAMapperMicroRNA.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNAMapperNTAFilter.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNAMapperRRNADB.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNAMapperTRNA.cs" />
+    <Compile Include="Genome\SmallRNA\SmallRNAUtils.cs" />
+    <Compile Include="IFileFormat.cs" />
+    <Compile Include="IInputFileLineReader.cs" />
+    <Compile Include="ILineFile.cs" />
+    <Compile Include="InputFileLineReader.cs" />
+    <Compile Include="IParser.cs" />
+    <Compile Include="LineFile.cs" />
+    <Compile Include="MyConvert.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Seq\FastaFormat.cs" />
+    <Compile Include="Seq\IAccessNumberParser.cs" />
+    <Compile Include="Seq\ISequenceFormat.cs" />
+    <Compile Include="Seq\Sequence.cs" />
+    <Compile Include="Seq\SequenceUtils.cs" />
+    <Compile Include="UserTerminatedException.cs" />
+    <Compile Include="Utils\ConsoleProgressCallback.cs" />
+    <Compile Include="Utils\IProgressCallback.cs" />
+    <Compile Include="Utils\MapReader.cs" />
+    <Compile Include="Utils\RegistryHelpers.cs" />
+    <Compile Include="Utils\StreamUtils.cs" />
+    <Compile Include="Utils\StringUtils.cs" />
+    <Compile Include="Utils\SystemUtils.cs" />
+    <Compile Include="Utils\XmlUtils.cs" />
+  </ItemGroup>
+</Project>

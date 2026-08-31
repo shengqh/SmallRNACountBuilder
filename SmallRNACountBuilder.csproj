@@ -8,6 +8,8 @@
     <RootNamespace>CQS</RootNamespace>
     <AssemblyName>SmallRNACountBuilder</AssemblyName>
     <FileAlignment>512</FileAlignment>
+    <Version>1.0.1</Version>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
@@ -144,4 +146,13 @@
     <PackageReference Include="NetBio.Core" Version="3.0.0-alpha" />
     <PackageReference Include="System.IO.Packaging" Version="10.0.11" />
   </ItemGroup>
+
+  <Target Name="ZipPublishOutput" AfterTargets="Publish">
+    <PropertyGroup>
+      <PublishZipFile>$(OutDir)$(AssemblyName).v$(Version).zip</PublishZipFile>
+    </PropertyGroup>
+    <Delete Files="$(PublishZipFile)" Condition="Exists('$(PublishZipFile)')" />
+    <ZipDirectory SourceDirectory="$(PublishDir)" DestinationFile="$(PublishZipFile)" />
+    <Message Importance="high" Text="Packaged publish output to $(PublishZipFile)" />
+  </Target>
 </Project>

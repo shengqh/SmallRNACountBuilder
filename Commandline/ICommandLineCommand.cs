@@ -82,6 +82,12 @@ namespace RCPA.Commandline
         },
         errors =>
         {
+          if (errors.IsVersion())
+          {
+            Console.Out.WriteLine(HelpText.AutoBuild(parserResult, h => h, e => e).Heading);
+            return true;
+          }
+
           Console.Out.WriteLine(BuildUsage(parserResult, null));
           return false;
         });

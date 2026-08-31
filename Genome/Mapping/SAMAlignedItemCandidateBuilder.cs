@@ -113,11 +113,18 @@ namespace CQS.Genome.Mapping
           //}
 
           bool isReversed = flag.HasFlag(SAMFlags.QueryOnReverseStrand);
+
+          // if(qname.Equals("LH00545:407:255KKJLT4:1:1101:7248:1251:CLIP_"))
+          // {
+          //   Console.WriteLine("Found the query: {0}, isReversed: {1}, seq: {2}, reversed_seq: {3}", qname, isReversed, seq, SequenceUtils.GetReverseComplementedSequence(seq));
+          // }
+
           char strand;
           if (isReversed)
           {
             strand = '-';
-            seq = SequenceUtils.GetReverseComplementedSequence(seq);
+            //somehow the seq is always original sequence which matches the sequence in identical file.
+            //seq = SequenceUtils.GetReverseComplementedSequence(seq);
           }
           else
           {

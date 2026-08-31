@@ -23,22 +23,22 @@ namespace CQS.Genome.Mapping
       this.IgnoreNTAAndNoPenaltyMutation = false;
     }
 
-    [Option('e', "engineType", DefaultValue = DEFAULT_EngineType, MetaValue = "INT", HelpText = "Engine type (1:bowtie1, 2:bowtie2, 3:bwa, 4:gsnap, 5:star)")]
+    [Option('e', "engineType", Default = DEFAULT_EngineType, MetaValue = "INT", HelpText = "Engine type (1:bowtie1, 2:bowtie2, 3:bwa, 4:gsnap, 5:star)")]
     public virtual int EngineType { get; set; }
 
-    [Option('l', "minlen", MetaValue = "INT", DefaultValue = DEFAULT_MinimumReadLength, HelpText = "Minimum read length")]
+    [Option('l', "minlen", MetaValue = "INT", Default = DEFAULT_MinimumReadLength, HelpText = "Minimum read length")]
     public virtual int MinimumReadLength { get; set; }
 
-    [Option("maxlen", MetaValue = "INT", DefaultValue = int.MaxValue, HelpText = "Maximum read length")]
+    [Option("maxlen", MetaValue = "INT", Default = int.MaxValue, HelpText = "Maximum read length")]
     public virtual int MaximumReadLength { get; set; }
 
-    [Option('m', "maxMismatch", MetaValue = "INT", DefaultValue = DEFAULT_MaximumMismatchCount, HelpText = "Maximum mismatch count")]
+    [Option('m', "maxMismatch", MetaValue = "INT", Default = DEFAULT_MaximumMismatchCount, HelpText = "Maximum mismatch count")]
     public virtual int MaximumMismatch { get; set; }
 
-    [Option("t2cAsNoPenaltyMutation", MetaValue = "INT", DefaultValue = false, HelpText = "Consider T2C as no penalty mutation")]
+    [Option("t2cAsNoPenaltyMutation", MetaValue = "INT", Default = false, HelpText = "Consider T2C as no penalty mutation")]
     public virtual bool T2cAsNoPenaltyMutation { get; set; }
 
-    [Option("maxNoPenaltyMutation", MetaValue = "INT", DefaultValue = DEFAULT_MaximumNoPenaltyMutationCount, HelpText = "Maximum no penalty mutation count (such as T2C for Parclip, gsnap only)")]
+    [Option("maxNoPenaltyMutation", MetaValue = "INT", Default = DEFAULT_MaximumNoPenaltyMutationCount, HelpText = "Maximum no penalty mutation count (such as T2C for Parclip, gsnap only)")]
     public virtual int MaximumNoPenaltyMutationCount { get; set; }
 
     [Option('s', "bestScore", HelpText = "Consider score difference between matches from same query")]

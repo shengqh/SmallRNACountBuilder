@@ -61,14 +61,14 @@ namespace CQS.Genome.Sam
 
     public static void SortByName<T>(this List<T> list) where T : ISAMItem
     {
-      list.Sort((x, y) => StringComparer.Ordinal.Compare(x.Qname, y.Qname));
+      list.Sort((x, y) => x.Qname.CompareTo(y.Qname));
     }
 
     public static void SortByNameAndScore<T>(this List<T> list, ISAMFormat format) where T : ISAMItem
     {
       list.Sort((x, y) =>
       {
-        int result = StringComparer.Ordinal.Compare(x.Qname, y.Qname);
+        int result = x.Qname.CompareTo(y.Qname);
         if (result == 0)
         {
           result = format.CompareScore(x.AlignmentScore, y.AlignmentScore);
@@ -83,7 +83,7 @@ namespace CQS.Genome.Sam
       {
         list.Sort((x, y) =>
         {
-          var result = StringComparer.Ordinal.Compare(x.Qname, y.Qname);
+          var result = x.Qname.CompareTo(y.Qname);
           if (result == 0)
           {
             result = x.AlignmentScore.CompareTo(y.AlignmentScore);
@@ -95,7 +95,7 @@ namespace CQS.Genome.Sam
       {
         list.Sort((x, y) =>
         {
-          var result = StringComparer.Ordinal.Compare(x.Qname, y.Qname);
+          var result = x.Qname.CompareTo(y.Qname);
           if (result == 0)
           {
             result = -x.AlignmentScore.CompareTo(y.AlignmentScore);

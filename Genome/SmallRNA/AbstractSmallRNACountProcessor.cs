@@ -114,7 +114,7 @@ namespace CQS.Genome.SmallRNA
         foreach (var loc in read.Locations)
         {
           count ++;
-          if (count % 100000 == 0)
+          if (count % 1000000 == 0)
           {
             Progress.ShowCurrentMemory(string.Format("After processing {0} reads/locations", count));
           }
@@ -125,11 +125,11 @@ namespace CQS.Genome.SmallRNA
             map = new Dictionary<char, List<SAMAlignedLocation>>();
 
             int plus = plusCounts.TryGetValue(loc.Seqname, out int n1) ? n1 : 0;
-            Progress.ShowCurrentMemory(string.Format("Allocate {0} for {1} strand {2}", plus, loc.Seqname, '+'));
+            //Progress.ShowCurrentMemory(string.Format("Allocate {0} for {1} strand {2}", plus, loc.Seqname, '+'));
             map['+'] = new List<SAMAlignedLocation>(plus);
 
             int minus = minusCounts.TryGetValue(loc.Seqname, out int n2) ? n2 : 0;
-            Progress.ShowCurrentMemory(string.Format("Allocate {0} for {1} strand {2}", minus, loc.Seqname, '-'));
+            //Progress.ShowCurrentMemory(string.Format("Allocate {0} for {1} strand {2}", minus, loc.Seqname, '-'));
             map['-'] = new List<SAMAlignedLocation>(minus);
 
             chrStrandMatchedMap[loc.Seqname] = map;

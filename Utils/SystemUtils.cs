@@ -1,7 +1,6 @@
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -37,68 +36,6 @@ namespace RCPA.Utils
           }
         }
       }
-    }
-
-    private static object GetRegisteryValueRInstallPath()
-    {
-      var reg = RegistryHelpers.GetRegistryKey(@"SOFTWARE\R-core\R\");
-      if (reg == null)
-      {
-        return null;
-      }
-
-      var path = reg.GetValue("InstallPath");
-      if (path != null)
-      {
-        return path;
-      }
-
-      foreach (var key in reg.GetSubKeyNames())
-      {
-        var subreg = reg.OpenSubKey(key);
-        var subpath = subreg.GetValue("InstallPath");
-        if (subpath != null)
-        {
-          return subpath;
-        }
-      }
-
-      return null;
-    }
-
-    public static string GetRscriptExecuteLocation(bool throwException = true)
-    {
-      var v = GetRegisteryValueRInstallPath();
-      if (v == null)
-      {
-        if (throwException)
-        {
-          throw new FileNotFoundException("Cannot find R from system registration, please install R!");
-        }
-
-        return null;
-      }
-      return (string)v + (Environment.Is64BitOperatingSystem ? @"\bin\x64\Rscript.exe" : @"\bin\Rscript.exe");
-    }
-
-    public static string GetRExecuteLocation(bool throwException = true)
-    {
-      if (SystemUtils.IsLinux)
-      {
-        return "R";
-      }
-
-      var v = GetRegisteryValueRInstallPath();
-      if (v == null)
-      {
-        if (throwException)
-        {
-          throw new FileNotFoundException("Cannot find R from system registration, please install R!");
-        }
-
-        return null;
-      }
-      return (string)v + (Environment.Is64BitOperatingSystem ? @"\bin\x64\R.exe" : @"\bin\R.exe");
     }
 
     public static void Execute(string executeFilename, string arguments)
@@ -188,7 +125,7 @@ namespace RCPA.Utils
       // Duplicate Stderr handle to save initial value
       DuplicateHandle(hProcess, hStdErr, hProcess, out hStdErrDup,
       0, true, DUPLICATE_SAME_ACCESS);
-      // Attach to console window – this may modify the standard handles
+      // Attach to console window ï¿½ this may modify the standard handles
       AttachConsole(ATTACH_PARENT_PROCESS);
       // Adjust the standard handles
       if (GetFileInformationByHandle(GetStdHandle(STD_OUTPUT_HANDLE), out bhfi))

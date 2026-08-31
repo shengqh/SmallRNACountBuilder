@@ -24,9 +24,6 @@ namespace RCPA.Commandline
       get { return _parsingErrors; }
     }
 
-    [ParserState]
-    public IParserState LastParserState { get; set; }
-
     protected void CheckFile(string key, string fileName)
     {
       if (!File.Exists(fileName))
@@ -73,66 +70,41 @@ namespace RCPA.Commandline
       var pi = properties[propertyName];
 
       OptionAttribute oa = (OptionAttribute)Attribute.GetCustomAttribute(pi, typeof(OptionAttribute));
-      if (oa != null)
+      if (oa == null)
       {
-        if (oa.MetaValue.Equals("FILE"))
+        throw new ArgumentException("Property {0} doesn't have attribute Option.", propertyName);
+      }
+
+      if (oa.MetaValue.Equals("FILE"))
+      {
+        string filename = pi.GetValue(this, null) as string;
+        if (!string.IsNullOrEmpty(filename) && !File.Exists(filename))
         {
-          string filename = pi.GetValue(this, null) as string;
-          if (!string.IsNullOrEmpty(filename) && !File.Exists(filename))
-          {
-            ParsingErrors.Add(string.Format("File {0} not exists : {1}.", oa.HelpText, filename));
-          }
-        }
-        else if (oa.MetaValue.Equals("DIRECTORY"))
-        {
-          string dirname = pi.GetValue(this, null) as string;
-          if (!string.IsNullOrEmpty(dirname) && !Directory.Exists(dirname))
-          {
-            ParsingErrors.Add(string.Format("Directory {0} not exists : {1}.", oa.HelpText, dirname));
-          }
+          ParsingErrors.Add(string.Format("File {0} not exists : {1}.", oa.HelpText, filename));
         }
       }
-      else
+      else if (oa.MetaValue.Equals("DIRECTORY"))
       {
-        OptionListAttribute ola = (OptionListAttribute)Attribute.GetCustomAttribute(pi, typeof(OptionListAttribute));
-        if (ola != null)
+        string dirname = pi.GetValue(this, null) as string;
+        if (!string.IsNullOrEmpty(dirname) && !Directory.Exists(dirname))
         {
-          IList<string> filenames = pi.GetValue(this) as IList<string>;
-          if (ola.MetaValue.Equals("FILELIST"))
+          ParsingErrors.Add(string.Format("Directory {0} not exists : {1}.", oa.HelpText, dirname));
+        }
+      }
+      else if (oa.MetaValue.Equals("FILELIST"))
+      {
+        IEnumerable<string> filenames = pi.GetValue(this, null) as IEnumerable<string>;
+        if (filenames != null)
+        {
+          foreach (var filename in filenames)
           {
-            foreach (var filename in filenames)
+            if (!string.IsNullOrEmpty(filename) && !File.Exists(filename))
             {
-              if (!string.IsNullOrEmpty(filename) && !File.Exists(filename))
-              {
-                ParsingErrors.Add(string.Format("File {0} not exists : {1}.", ola.HelpText, filename));
-              }
+              ParsingErrors.Add(string.Format("File {0} not exists : {1}.", oa.HelpText, filename));
             }
           }
         }
-        else
-        {
-          throw new ArgumentException("Property {0} doesn't have attribute Option/OptionList.", propertyName);
-        }
-
       }
-    }
-
-    [HelpOption]
-    public string GetUsage()
-    {
-      HelpText result = HelpText.AutoBuild(this,
-        (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
-
-      if (_parsingErrors.Count > 0)
-      {
-        result.AddPreOptionsLine("ERROR(S):");
-        foreach (string line in _parsingErrors)
-        {
-          result.AddPreOptionsLine("  " + line);
-        }
-      }
-
-      return result;
     }
 
     public abstract bool PrepareOptions();

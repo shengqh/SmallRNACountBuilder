@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommandLine;
+using CommandLine.Text;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -51,17 +53,17 @@ namespace RCPA.Commandline
 
     private bool DoProcess(string[] args, bool result)
     {
-      var options = new T();
-      result = CommandLine.Parser.Default.ParseArguments(args, options);
-      if (result)
-      {
-        if (!options.PrepareOptions())
+      var parserResult = new Parser(with => { with.HelpWriter = null; }).ParseArguments<T>(args);
+
+      return parserResult.MapResult(
+        options =>
         {
-          Console.Out.WriteLine(options.GetUsage());
-          result = false;
-        }
-        else
-        {
+          if (!options.PrepareOptions())
+          {
+            Console.Out.WriteLine(BuildUsage(parserResult, options));
+            return false;
+          }
+
           options.ResetDefaultValue(args);
 
           var files = GetProcessor(options).Process();
@@ -76,14 +78,33 @@ namespace RCPA.Commandline
               Console.WriteLine(files.Merge("\n"));
             }
           }
-        }
-      }
-      else
+          return true;
+        },
+        errors =>
+        {
+          Console.Out.WriteLine(BuildUsage(parserResult, null));
+          return false;
+        });
+    }
+
+    private static string BuildUsage(ParserResult<T> parserResult, T options)
+    {
+      var helpText = HelpText.AutoBuild(parserResult, h => HelpText.DefaultParsingErrorsHandler(parserResult, h), e => e);
+
+      if (options == null || options.ParsingErrors.Count == 0)
       {
-        Console.Out.WriteLine((from er in options.LastParserState.Errors select er.ToString()).Merge("\n"));
-        result = false;
+        return helpText.ToString();
       }
-      return result;
+
+      var sb = new System.Text.StringBuilder();
+      sb.AppendLine("ERROR(S):");
+      foreach (var line in options.ParsingErrors)
+      {
+        sb.AppendLine("  " + line);
+      }
+      sb.AppendLine();
+      sb.Append(helpText.ToString());
+      return sb.ToString();
     }
 
     public abstract IProcessor GetProcessor(T options);
